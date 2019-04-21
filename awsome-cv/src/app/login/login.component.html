@@ -1,0 +1,130 @@
+<div class="example-container">
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="请输入你的用户名"
+      [formControl]="nameFormControl"
+      #nameBox
+      id="name-box"
+      (input)="changeValue('name', nameBox.value)"
+    />
+    <mat-error *ngIf="nameFormControl.hasError('required')">
+      <strong>用户名是必选项哦！</strong>
+    </mat-error>
+  </mat-form-field>
+  <br />
+  <mat-form-field>
+    <input
+      matInput
+      type="password"
+      placeholder="请输入密码"
+      [formControl]="passwordFormControl"
+      #passwordBox
+      id="password-box"
+      (input)="changeValue('password', passwordBox.value)"
+      [type]="hide ? 'password' : 'text'"
+    />
+    <mat-icon matSuffix (click)="hide = !hide">{{
+      hide ? "visibility_off" : "visibility"
+    }}</mat-icon>
+    <mat-error *ngIf="passwordFormControl.hasError('required')">
+      请输入<strong>密码</strong>
+    </mat-error>
+    <mat-error *ngIf="passwordFormControl.hasError('minLength')">
+      <strong>密码最少为6位</strong>
+    </mat-error>
+  </mat-form-field>
+  <br />
+
+  <button mat-raised-button color="primary" type="submit" (click)="login()">
+    登陆 <mat-icon>launch</mat-icon>
+  </button>
+
+  <button mat-raised-button routerLink="/signup">
+    注册 <mat-icon>toys</mat-icon></button
+  ><br />
+
+  <button mat-icon-button (click)="goBack()">
+    返回<mat-icon>reply </mat-icon>
+  </button>
+</div>
+
+<!-- <form class="example-form">
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Favorite food" value="Sushi">
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <textarea matInput placeholder="Leave a comment"></textarea>
+  </mat-form-field>
+</form> -->
+<!-- <mat-grid-list cols="1" rowHeight="fit" style="height:90vh" class="log-in">
+
+  <mat-grid-tile>
+    <form>
+
+      <mat-form-field style="width: 60vw;">
+        <input matInput placeholder="请输入你的用户名" [formControl]="nameFormControl" #nameBox id="name-box"
+          (input)="changeValue('name',nameBox.value)">
+        <mat-error *ngIf="nameFormControl.hasError('required')">
+          <strong>用户名是必选项哦！</strong>
+        </mat-error>
+      </mat-form-field>
+      <br />
+      <br />
+      <mat-form-field style="width: 60vw;">
+        <input matInput type="password" placeholder="请输入密码" [formControl]="passwordFormControl" #passwordBox
+          id="password-box" (input)="changeValue('password',passwordBox.value)" [type]="hide ? 'password' : 'text'">
+        <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        <mat-error *ngIf="passwordFormControl.hasError('required')">
+          请输入<strong>密码</strong>
+        </mat-error>
+        <mat-error *ngIf="passwordFormControl.hasError('minLength')">
+          <strong>密码最少为6位</strong>
+        </mat-error>
+      </mat-form-field>
+      <br />
+      <mat-grid-list cols="1" rowHeight="3rem">
+        <mat-grid-tile> <button mat-raised-button color="primary" type="submit" (click)="login()">登陆</button>
+        </mat-grid-tile>
+        <mat-grid-tile><button mat-raised-button (click)="goBack()">返回</button><br /></mat-grid-tile>
+
+
+      </mat-grid-list> -->
+
+<!-- <mat-form-field>
+    <input matInput placeholder="请输入密码" [formControl]="emailFormControl">
+    <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+      请输入正确的邮箱地址
+    </mat-error>
+    <mat-error *ngIf="emailFormControl.hasError('required')">
+      必须输入 <strong>邮箱</strong>
+    </mat-error>
+  </mat-form-field> -->
+<!-- </form>
+  </mat-grid-tile>
+</mat-grid-list> -->
+
+<!-- <mat-card class="example-card">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>Shiba Inu</mat-card-title>
+    <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+  </mat-card-header>
+  <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+  <mat-card-content>
+    <p>
+      The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
+      A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
+      bred for hunting.
+    </p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button>LIKE</button>
+    <button mat-button>SHARE</button>
+  </mat-card-actions>
+</mat-card> -->
+
+<!-- Copyright 2019 Google Inc. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license-->

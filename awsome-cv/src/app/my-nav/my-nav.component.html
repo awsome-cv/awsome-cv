@@ -1,0 +1,192 @@
+<div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
+  <mat-toolbar color="primary" class="example-toolbar">
+    <button id="btn" mat-icon-button (click)="snav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h1 class="example-app-name">MarkDown笔记本 {{pageTitle}}</h1>
+    <div id="isLogIn" *ngIf="httpService.isLoggedOut()">
+      <button mat-raised-button (click)="SignIn()">
+        登陆/注册
+      </button>
+    </div>
+    <div *ngIf="httpService.isLoggedIn()" id="isLogIn">
+      <button mat-raised-button [matMenuTriggerFor]="menu" color="primary">
+        {{ localStorage.getItem("name") }} <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="logOut()">
+          <mat-icon>directions_run</mat-icon>
+          <span>登出</span>
+        </button>
+      </mat-menu>
+    </div>
+  </mat-toolbar>
+
+  <mat-sidenav-container
+    class="example-sidenav-container"
+    [style.marginTop.px]="mobileQuery.matches ? 56 : 0"
+  >
+    <mat-sidenav
+      #snav
+      [mode]="mobileQuery.matches ? 'over' : 'side'"
+      [fixedInViewport]="mobileQuery.matches"
+      fixedTopGap="56"
+    ><div style="width: 15rem;text-align:center;height: 90vh;">
+      <mat-nav-list style="width: 15rem;text-align:center;height: 90vh;">
+        
+        <button 
+          mat-raised-button
+          style="width: 15rem;text-align:center;"
+          color="primary"
+          matTooltip="点击新建笔记添加一个笔记吧~"
+          matTooltipPosition="right"
+          aria-tooltip="Button that displays and hides a tooltip triggered by other buttons"
+          *ngIf="httpService.isLoggedIn()"
+        >
+          编辑<mat-icon>border_color</mat-icon>
+        </button>
+        <button 
+        mat-raised-button
+        style="width: 15rem;text-align:center;"
+        color="primary"
+        matTooltip="点击右侧登陆或创建一个新账户"
+        matTooltipPosition="right"
+        aria-tooltip="Button that displays and hides a tooltip triggered by other buttons"
+        *ngIf="httpService.isLoggedOut()"
+      >
+        编辑<mat-icon>border_color</mat-icon>
+      </button>
+ 
+  
+        <mat-accordion *ngIf="httpService.isLoggedIn()">
+            <mat-expansion-panel
+            (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false"
+
+          >
+          <mat-expansion-panel-header  >
+                <mat-panel-title></mat-panel-title>
+                  <mat-panel-description>
+                    
+                    <div style="text-aligin:center">
+                      <em>笔记本</em></div>
+                    </mat-panel-description>
+               
+            </mat-expansion-panel-header>
+          <mat-expansion-panel
+            (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false"
+            *ngFor="let note of notes; let i = index"
+            [attr.data-index]="i"
+          >
+            <mat-expansion-panel-header (click)="beginEdit(note)">
+              <mat-panel-title>
+                {{ note.title }}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <button mat-icon-button color="primary" (click)="save(note)">
+              保存<mat-icon>save</mat-icon>
+            </button>
+            <br />
+            <button mat-icon-button color="accent" (click)="share(note)">
+              分享<mat-icon>screen_share</mat-icon>
+            </button>
+            <br />
+
+            <button mat-icon-button color="warn" (click)="delete(note, i)">
+              删除<mat-icon>delete_sweep</mat-icon>
+            </button>
+            <h6>
+              <br /><strong>{{ note.edit_date }}</strong> <br />最后编辑
+            </h6>
+          </mat-expansion-panel>
+          <mat-expansion-panel
+          (opened)="panelOpenState = true"
+          (closed)="panelOpenState = false"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title></mat-panel-title>
+            <mat-panel-description>
+              <em>新建一个笔记</em>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <mat-form-field>
+            <input
+              matInput
+              #title
+              id="title"
+              placeholder="Title"
+              (input)="setNewTitle(title.value)"
+            />
+          </mat-form-field>
+          <button mat-icon-button color="primary" (click)="add()">
+            添加<mat-icon>add</mat-icon>
+          </button>
+        </mat-expansion-panel>
+        </mat-expansion-panel>
+        </mat-accordion>
+        <mat-accordion *ngIf="httpService.isLoggedIn()">
+         
+        </mat-accordion>
+        <mat-accordion *ngIf="httpService.isLoggedOut()">
+          <mat-expansion-panel
+            (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title></mat-panel-title>
+              <mat-panel-description>
+                <em>登陆后即可保存笔记</em>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+       
+          </mat-expansion-panel>
+        </mat-accordion>
+       
+      <mat-accordion >
+          <mat-expansion-panel
+            (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false"
+          >
+            <mat-expansion-panel-header>
+                <button
+                mat-icon-button
+                style="text-align:center;width: 100%"
+                color="primary"
+                matTooltip="笔记的大纲会展示各级标题"
+                matTooltipPosition="right"
+                aria-tooltip="Button that displays and hides a tooltip triggered by other buttons"
+              >
+                大纲<mat-icon>library_books</mat-icon>
+              </button>
+            </mat-expansion-panel-header>
+            <div style="width: 100%;text-align: center" id="#custom-toc-container">
+                <div
+                class="markdown-body editormd-preview-container"
+                id="custom-toc-container"
+                previewcontainer="false"
+              >
+                <div class="markdown-toc editormd-markdown-toc">
+                    
+            </div>
+            <em>draft</em>
+          </div>
+        </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+     
+      
+      </mat-nav-list></div>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <div style="height: 100%;overflow: hidden;">
+        <div id="xxd">
+          <textarea style="display:-moz-box;" [(ngModel)]="markdown"></textarea>
+        </div>
+      
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
